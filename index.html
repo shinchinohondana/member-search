@@ -65,7 +65,7 @@
     async function search() {
       const query = document.getElementById("query").value;
       const pwd = document.getElementById("pwd").value;
-      const url = `https://script.google.com/macros/s/AKfycbxUoaQKMPpdT3qAAJTk9jPZPPB9EKWHJnv_EekGVGCYS2v12GRCfiPHi7SyNfiMfXjL/exec?q=${encodeURIComponent(query)}&pwd=${encodeURIComponent(pwd)}`;
+      const url = `https://script.google.com/macros/s/AKfycbzDaiDftTrsWG28kj1KuLNzPYtF9gw7jCTsOUMZFGx_DbOq--Ljes1H5bGEBeVL55brEQ/exec=${encodeURIComponent(query)}&pwd=${encodeURIComponent(pwd)}`;
 
       const res = await fetch(url);
       const data = await res.json();
