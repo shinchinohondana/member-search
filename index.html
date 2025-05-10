@@ -80,13 +80,11 @@
         const div = document.createElement("div");
         div.className = "entry";
 
-        const birth = item["誕生日（月日）"] || "";
-
         div.innerHTML = `
           <strong>会員番号：</strong>${item["会員番号"]}<br>
           <strong>名前：</strong>${item["姓"]} ${item["名"]}<br>
           <strong>フリガナ：</strong>${item["姓フリガナ"]} ${item["名フリガナ"]}<br>
-          ${birth ? `<strong>誕生日：</strong>${birth}<br>` : ""}
+          <strong>誕生日：</strong>${item["誕生日（月日）"]}<br>
         `;
         result.appendChild(div);
       });
