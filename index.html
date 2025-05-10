@@ -58,7 +58,9 @@
     async function search() {
       const query = document.getElementById("query").value;
       const pwd = document.getElementById("pwd").value;
-      const url = `https://script.google.com/macros/s/AKfycbzhBbu13Hg2LWwPoLqO1Jx9Kt1i-rZcc10ADQSuu5gglXsgpJCkgGort4pXnuFd9oY0bw/exec?q=${encodeURIComponent(query)}&pwd=${encodeURIComponent(pwd)}`;
+      const url = "https://script.google.com/macros/s/AKfycbxnKfwMHO1DWWGetPwOfWhm9fELoVXnRUTmaNX7HFq9jG3SdhHHUEMg7dez8N_U9Q4NdQ/exec" +
+                  "?q=" + encodeURIComponent(query) +
+                  "&pwd=" + encodeURIComponent(pwd);
 
       const res = await fetch(url);
       const data = await res.json();
@@ -84,7 +86,7 @@
           <strong>会員番号：</strong>${item["会員番号"]}<br>
           <strong>名前：</strong>${item["姓"]} ${item["名"]}<br>
           <strong>フリガナ：</strong>${item["姓フリガナ"]} ${item["名フリガナ"]}<br>
-          <strong>誕生日：</strong>${item["誕生日（月日）"]}<br>
+          ${item["誕生日（月日のみ）"] ? `<strong>誕生日：</strong>${item["誕生日（月日のみ）"]}<br>` : ""}
         `;
         result.appendChild(div);
       });
