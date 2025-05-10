@@ -5,47 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>会員検索</title>
   <style>
-  body {
-    font-family: sans-serif;
-    padding: 20px;
-    max-width: 500px;
-    margin: auto;
-    background: #f0f0f0;
-  }
-  h2 {
-    text-align: center;
-    font-size: 1.6em;
-  }
-  input[type="text"], input[type="password"], button {
-    width: 98%;
-    max-width: 440px;
-    display: block;
-    margin: 10px auto;
-    font-size: 1.1em;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #0056b3;
-  }
-  #result {
-    margin-top: 20px;
-  }
-  .entry {
-    background: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-  }
-</style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      background: #f0f0f0;
+    }
+    h2 {
+      text-align: center;
+      font-size: 1.6em;
+    }
+    input[type="text"], input[type="password"], button {
+      width: 98%;
+      max-width: 440px;
+      display: block;
+      margin: 10px auto;
+      font-size: 1.1em;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    .entry {
+      background: white;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
   <h2>会員検索</h2>
@@ -56,49 +56,41 @@
 
   <script>
     async function search() {
-    const query = document.getElementById("query").value;
-    const pwd = document.getElementById("pwd").value;
-    const url = `https://script.google.com/macros/s/AKfycbzhBbu13Hg2LWwPoLqO1Jx9Kt1i-rZcc10ADQSuu5gglXsgpJCkgGort4pXnuFd9oY0bw/exec?q=${encodeURIComponent(query)}&pwd=${encodeURIComponent(pwd)}`;
+      const query = document.getElementById("query").value;
+      const pwd = document.getElementById("pwd").value;
+      const url = `https://script.google.com/macros/s/AKfycbzhBbu13Hg2LWwPoLqO1Jx9Kt1i-rZcc10ADQSuu5gglXsgpJCkgGort4pXnuFd9oY0bw/exec?q=${encodeURIComponent(query)}&pwd=${encodeURIComponent(pwd)}`;
 
-    const res = await fetch(url);
-    const data = await res.json();
+      const res = await fetch(url);
+      const data = await res.json();
 
-    const result = document.getElementById("result");
-    result.innerHTML = "";
+      const result = document.getElementById("result");
+      result.innerHTML = "";
 
-    // ❗ PWが違うときの処理
-    if (data.error === "PWが違います") {
-      result.innerHTML = "※ パスワードが違います";
-      return;
-    }
-
-    if (data.length === 0) {
-      result.innerHTML = "一致する会員が見つかりませんでした。";
-      return;
-    }
-
-    data.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "entry";
-
-      // 月日だけ取り出す処理（YYYY/MM/DD 形式前提）
-      let birth = "";
-      if (item["生年月日"]) {
-        const parts = item["生年月日"].split(/[\/\-]/); // スラッシュ or ハイフン対応
-        if (parts.length >= 3) {
-          birth = `${parseInt(parts[1])}月${parseInt(parts[2])}日`;
-        }
+      if (data.error === "PWが違います") {
+        result.innerHTML = "※ パスワードが違います";
+        return;
       }
 
-      div.innerHTML = `
-        <strong>会員番号：</strong>${item["会員番号"]}<br>
-        <strong>名前：</strong>${item["姓"]} ${item["名"]}<br>
-        <strong>フリガナ：</strong>${item["姓フリガナ"]} ${item["名フリガナ"]}<br>
-        ${birth ? `<strong>誕生日：</strong>${birth}<br>` : ""}
-      `;
-      result.appendChild(div);
-    });
-  }
+      if (data.length === 0) {
+        result.innerHTML = "一致する会員が見つかりませんでした。";
+        return;
+      }
+
+      data.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "entry";
+
+        const birth = item["誕生日（月日）"] || "";
+
+        div.innerHTML = `
+          <strong>会員番号：</strong>${item["会員番号"]}<br>
+          <strong>名前：</strong>${item["姓"]} ${item["名"]}<br>
+          <strong>フリガナ：</strong>${item["姓フリガナ"]} ${item["名フリガナ"]}<br>
+          ${birth ? `<strong>誕生日：</strong>${birth}<br>` : ""}
+        `;
+        result.appendChild(div);
+      });
+    }
   </script>
 </body>
 </html>
